@@ -1,0 +1,109 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<c:set var="path"
+	value="${requestScope['javax.servlet.forward.servlet_path']}" />
+
+<c:set var="isArticleModifyAndDeleteAvailable"
+	value="${path == '/article/detail'}" />
+<c:set var="writerCheck" value="${loginedMemberId == article.memberId || loginedMemberId == reply.memberId}" />
+<c:set var="isMemberModifyAvailable" value="${path == '/member/myPage'}" />
+
+<c:set var="myPageAvailable" value="${path == '/' || path == '/home/main' || path == '/member/main' || path == '/article/list'}" />
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title><c:out value="${logoText}" /> - <c:out
+		value="${pageTitle}" /></title>
+<link rel="stylesheet" href="/resource/common.css" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/resource/common.js"></script>
+<script src="/resource/app.js"></script>
+<script>
+function secessionMember() {
+	var url = './secessionMember';
+
+	var passwd = prompt('비밀번호를 입력해주세요.');
+
+	if ( passwd == null ) {
+		return;
+	}
+
+	url += '?passwd=' + passwd;
+	
+	if ( confirm('정말로 탈퇴하시겠습니까?') == false ) {
+		return false;
+	}
+
+	location.href = url;
+}
+function deleteArticle(id) {
+	var url = './deleteArticle';
+
+	if ( confirm('게시물을 삭제하시겠습니까?') == false ) {
+		return false;
+	}
+	
+	url += '&id=' + id;
+	
+	location.href = url;
+}
+</script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+<link rel="stylesheet" href="/resource/common.css">
+<link rel="stylesheet" href="/resource/app.css">
+</head>
+<body>
+	<div class="logo-bar con">
+		<h1>
+			<c:out value="${logoText}" />
+			-
+			<c:out value="${pageTitle}" />
+		</h1>
+	</div>
+
+	<div class="top-bar con margin-top-size-1">
+		<nav class="menu-1">
+			<ul class="row">
+				<li class="cell margin-right-size-1"><a href="/"
+						class="block btn-a">홈</a></li>
+				<li class="cell margin-right-size-1"><a href="/article/list"
+						class="block btn-a">게시물 리스트</a></li>
+				<c:if test="${isLogined}">
+					<c:if test="${isMemberModifyAvailable}">
+						<li class="cell margin-right-size-1"><a href="/member/modify" class="block btn-a">내 정보수정</a></li>
+					</c:if>
+					<c:if test="${isMemberModifyAvailable}">
+						<li class="cell margin-right-size-1"><a href="javascript:;" onclick="secessionMember();" class="block btn-a">탈퇴하기</a></li>
+					</c:if>
+					<c:if test="${myPageAvailable}">
+						<li class="cell margin-right-size-1"><a href="/member/myPage" class="block btn-a">마이페이지</a></li>
+					</c:if>
+					<li class="cell margin-right-size-1"><a href="/article/add"
+						class="block btn-a">게시물 작성</a></li>
+					<c:if test="${isArticleModifyAndDeleteAvailable && writerCheck}">
+						<li class="cell margin-right-size-1"><a
+							href="/article/modify?id=${article.id}" class="block btn-a">게시물
+								수정</a></li>
+						<li class="cell margin-right-size-1"><a href="javascript:;"
+							onclick="deleteArticle(${article.id});" class="block btn-a">게시물
+								삭제</a></li>
+					</c:if>
+					
+					<li class="cell margin-right-size-1"><a
+						href="/member/doLogout" class="block btn-a">로그아웃</a></li>
+				</c:if>
+				<c:if test="${isLogined == false}">
+					<li class="cell margin-right-size-1"><a href="/member/login"
+						class="block btn-a">로그인</a></li>
+					<li class="cell margin-right-size-1"><a href="/member/join"
+						class="block btn-a">가입</a></li>
+				</c:if>
+			</ul>
+		</nav>
+	</div>
+	<div class="margin-top-size-1"></div>

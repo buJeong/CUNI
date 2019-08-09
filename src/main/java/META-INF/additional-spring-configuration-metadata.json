@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "custom.logoText",
+  "type": "java.lang.String",
+  "description": "A description for 'custom'"
+}]}

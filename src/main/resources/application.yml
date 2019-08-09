@@ -1,0 +1,28 @@
+server:
+  port: 8090
+custom:
+  logoText: 시험제출
+spring:
+  mvc:
+    view:      prefix: /WEB-INF/jsp
+      suffix: .jsp
+  datasource:
+    # driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost:3306/a2?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    username: root
+    password: ''
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: byeonguk92@gmail.com
+    password: '!wlqvm7197'
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+mybatis:
+  type-aliases-package: com.example.demo.dto
+  
